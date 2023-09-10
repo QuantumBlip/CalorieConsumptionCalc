@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import {Picker} from '@react-native-picker/picker';
 import RadioForm from 'react-native-simple-radio-button';
@@ -23,6 +23,16 @@ export default function App() {
     {label: 'female', value: 'female'}
   ];
 
+  const calculate = () => {
+    let result = 0
+    if(gender === 'male'){
+      result = (879 + 10.2 * weight) * intensity
+    }else{
+      result = (795 + 7.18 * weight) * intensity
+    }
+    setCalories(result)
+  }
+
 
   return (
     <View style={styles.container}>
@@ -39,17 +49,29 @@ export default function App() {
         <Text> Intensity</Text>
         <Picker 
         style={styles.intensity}
-        onValueChange={(itemValue) => setIntensity(intemValue)}
+        onValueChange={(itemValue) => setIntensity(itemValue)}
         selectedValue={intensity}>
-          {intensities.map((intensity, index) => {
-            <Picker.Item key={item} label={intensity.label} value={intensity.value}/>
-          })
+          {
+            intensities.map((intensity, index) => (
+            <Picker.Item key={index} label={intensity.label} value={intensity.value}/>
+          ))
           }
         </Picker>
       </View>
       <View style={styles.field}>
         <Text>Gender</Text>
+        <RadioForm
+          style={styles.radio}
+          buttonSize = {10}
+          radio_props={genders}
+          initial={0}
+          onPress={value => setGender(value)}  
+        />
       </View>
+      <View style={styles.field}>
+        <Text>{calories.toFixed(0)}</Text>
+      </View>
+      <Button title='Calculate' onPress={() => calculate()}/>
     </View>
   );
 }
@@ -57,8 +79,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 56,
+    margin: 8,
   },
+  field: {
+    marginBottom: 8,
+    marginTop: 8
+  },
+  radio: {
+    marginTop: 8,
+  },
+  intensity: {
+    alignSelf: 'stretch',
+  }
 });
+
