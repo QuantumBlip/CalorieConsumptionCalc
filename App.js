@@ -37,7 +37,8 @@ export default function App() {
       </View>
       <View style={styles.field}>
         <Text> Intensity</Text>
-        <Picker style={styles.intensity}
+        <Picker 
+        style={styles.intensity}
         onValueChange={(itemValue) => setIntensity(intemValue)}
         selectedValue={intensity}>
           {intensities.map((intensity, index) => {
@@ -45,6 +46,9 @@ export default function App() {
           })
           }
         </Picker>
+      </View>
+      <View style={styles.field}>
+        <Text>Gender</Text>
       </View>
     </View>
   );
